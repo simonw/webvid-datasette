@@ -1,5 +1,5 @@
 from datasette import hookimpl
-from markupsafe import Markup
+from markupsafe import Markup, escape
 
 TEMPLATE = """
 <video controls width="400" preload="none" poster="{poster}">
@@ -16,6 +16,6 @@ def render_cell(row, column, value):
     if column != "filename":
         return
     id = row["id"]
-    url = VIDEO_URL.format(id=id, filename=value)
+    url = VIDEO_URL.format(id=id, filename=escape(value))
     poster = POSTER_URL.format(id=id)
-    return Markup(TEMPLATE.format(url=url, poster=poster, filename=value, id=id))
+    return Markup(TEMPLATE.format(url=url, poster=poster, filename=escape(value), id=id))
